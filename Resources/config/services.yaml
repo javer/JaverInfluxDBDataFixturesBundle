@@ -1,0 +1,40 @@
+services:
+    javer_influxdb_data_fixtures.loader.influxdb:
+        alias: javer_influxdb_data_fixtures.influxdb.purger_loader
+        public: true
+
+    javer_influxdb_data_fixtures.influxdb.purger_loader:
+        class: Fidry\AliceDataFixtures\Loader\PurgerLoader
+        arguments:
+            - '@javer_influxdb_data_fixtures.influxdb.persister_loader'
+            - '@javer_influxdb_data_fixtures.persistence.purger_factory.influxdb'
+            - '%fidry_alice_data_fixtures.default_purge_mode%'
+            - '@?logger'
+
+    javer_influxdb_data_fixtures.influxdb.persister_loader:
+        class: Fidry\AliceDataFixtures\Loader\PersisterLoader
+        lazy: true
+        arguments:
+            - '@fidry_alice_data_fixtures.loader.simple'
+            - '@javer_influxdb_data_fixtures.persistence.persister.influxdb'
+            - '@?logger'
+
+    javer_influxdb_data_fixtures.persistence.purger_factory.influxdb:
+        alias: javer_influxdb_data_fixtures.persistence.influxdb.purger.purger_factory
+        public: true
+
+    javer_influxdb_data_fixtures.persistence.influxdb.purger.purger_factory:
+        class: Javer\InfluxDB\DataFixturesBundle\Purger\PurgerFactory
+        lazy: true
+        arguments:
+            - '@javer_influxdb.odm.measurement_manager'
+
+    javer_influxdb_data_fixtures.persistence.persister.influxdb:
+        alias: javer_influxdb_data_fixtures.persistence.persister.influxdb.object_manager_persister
+        public: true
+
+    javer_influxdb_data_fixtures.persistence.persister.influxdb.object_manager_persister:
+        class: Fidry\AliceDataFixtures\Bridge\Doctrine\Persister\ObjectManagerPersister
+        lazy: true
+        arguments:
+            - '@javer_influxdb.odm.measurement_manager'
