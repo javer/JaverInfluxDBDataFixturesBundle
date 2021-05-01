@@ -15,7 +15,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class JaverInfluxDBDataFixturesExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * Loads a specific configuration.
+     *
+     * @param mixed[]          $configs
+     * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

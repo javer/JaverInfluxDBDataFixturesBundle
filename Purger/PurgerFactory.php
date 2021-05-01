@@ -2,7 +2,6 @@
 
 namespace Javer\InfluxDB\DataFixturesBundle\Purger;
 
-use Doctrine\Common\DataFixtures\Purger\PurgerInterface as DoctrinePurgerInterface;
 use Fidry\AliceDataFixtures\Persistence\PurgeMode;
 use Fidry\AliceDataFixtures\Persistence\PurgerFactoryInterface;
 use Fidry\AliceDataFixtures\Persistence\PurgerInterface;
@@ -49,25 +48,16 @@ class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
             return new self($this->manager, $mode);
         }
 
-        if ($purger instanceof DoctrinePurgerInterface) {
-            $manager = $purger->getObjectManager();
+        if ($purger instanceof MeasurementPurger) {
+            $manager = $purger->getMeasurementManager();
         } elseif ($purger instanceof self) {
             $manager = $purger->manager;
         } else {
             throw new InvalidArgumentException(
                 sprintf(
                     'Expected purger to be either and instance of "%s" or "%s". Got "%s".',
-                    DoctrinePurgerInterface::class,
+                    MeasurementPurger::class,
                     __CLASS__,
-                    get_class($purger)
-                )
-            );
-        }
-
-        if (null === $manager) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Expected purger "%s" to have an object manager, got "null" instead.',
                     get_class($purger)
                 )
             );
