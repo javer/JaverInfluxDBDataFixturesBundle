@@ -9,24 +9,13 @@ use InvalidArgumentException;
 use Javer\InfluxDB\DataFixtures\Purger\MeasurementPurger;
 use Javer\InfluxDB\ODM\MeasurementManager;
 
-/**
- * Class PurgerFactory
- *
- * @package Javer\InfluxDB\DataFixturesBundle\Purger
- */
 class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
 {
     private MeasurementManager $manager;
 
     private MeasurementPurger $purger;
 
-    /**
-     * PurgerFactory constructor.
-     *
-     * @param MeasurementManager $manager
-     * @param PurgeMode|null     $purgeMode
-     */
-    public function __construct(MeasurementManager $manager, PurgeMode $purgeMode = null)
+    public function __construct(MeasurementManager $manager, ?PurgeMode $purgeMode = null)
     {
         $this->manager = $manager;
 
@@ -44,7 +33,7 @@ class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
      */
     public function create(PurgeMode $mode, PurgerInterface $purger = null): PurgerInterface
     {
-        if (null === $purger) {
+        if ($purger === null) {
             return new self($this->manager, $mode);
         }
 
@@ -66,9 +55,6 @@ class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
         return new self($manager, $mode);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function purge(): void
     {
         $this->purger->purge();

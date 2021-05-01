@@ -7,11 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class JaverInfluxDBDataFixturesExtension
- *
- * @package Javer\InfluxDB\DataFixturesBundle\DependencyInjection
- */
 class JaverInfluxDBDataFixturesExtension extends Extension
 {
     /**
