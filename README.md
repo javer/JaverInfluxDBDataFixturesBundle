@@ -4,7 +4,7 @@ JaverInfluxDBDataFixturesBundle
 This bundle integrates the [InfluxDB Data Fixtures library](https://github.com/javer/influxdb-data-fixtures)
 into Symfony so that you can use [Alice](https://github.com/nelmio/alice) to load your fixtures into InfluxDB.
 
-[![Build Status](https://secure.travis-ci.org/javer/JaverInfluxDBDataFixturesBundle.png?branch=master)](http://travis-ci.org/javer/JaverInfluxDBDataFixturesBundle)
+[![Build Status](https://github.com/javer/JaverInfluxDBDataFixturesBundle/actions/workflows/test.yaml/badge.svg)](https://github.com/javer/JaverInfluxDBDataFixturesBundle/actions/workflows/test.yaml)
 
 Installation
 ============
