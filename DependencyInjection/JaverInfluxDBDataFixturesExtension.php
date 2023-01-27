@@ -7,13 +7,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class JaverInfluxDBDataFixturesExtension extends Extension
+final class JaverInfluxDBDataFixturesExtension extends Extension
 {
     /**
-     * Loads a specific configuration.
-     *
-     * @param mixed[]          $configs
-     * @param ContainerBuilder $container
+     * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
