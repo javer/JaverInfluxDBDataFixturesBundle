@@ -11,19 +11,13 @@ use Javer\InfluxDB\ODM\MeasurementManager;
 
 class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
 {
-    private MeasurementManager $manager;
+    private readonly MeasurementPurger $purger;
 
-    private MeasurementPurger $purger;
-
-    public function __construct(MeasurementManager $manager, ?PurgeMode $purgeMode = null)
+    public function __construct(
+        private readonly MeasurementManager $manager,
+    )
     {
-        $this->manager = $manager;
-
         $this->purger = new MeasurementPurger($manager);
-
-        if ($purgeMode !== null) {
-            $this->purger->setPurgeMode($purgeMode->getValue());
-        }
     }
 
     /**
@@ -34,25 +28,18 @@ class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
     public function create(PurgeMode $mode, PurgerInterface $purger = null): PurgerInterface
     {
         if ($purger === null) {
-            return new self($this->manager, $mode);
+            return new self($this->manager);
         }
 
-        if ($purger instanceof MeasurementPurger) {
-            $manager = $purger->getMeasurementManager();
-        } elseif ($purger instanceof self) {
+        if ($purger instanceof self) {
             $manager = $purger->manager;
         } else {
             throw new InvalidArgumentException(
-                sprintf(
-                    'Expected purger to be either and instance of "%s" or "%s". Got "%s".',
-                    MeasurementPurger::class,
-                    __CLASS__,
-                    get_class($purger)
-                )
+                sprintf('Expected purger to be instance of "%s". Got "%s".', __CLASS__, get_class($purger)),
             );
         }
 
-        return new self($manager, $mode);
+        return new self($manager);
     }
 
     public function purge(): void
