@@ -9,7 +9,7 @@ use InvalidArgumentException;
 use Javer\InfluxDB\DataFixtures\Purger\MeasurementPurger;
 use Javer\InfluxDB\ODM\MeasurementManager;
 
-final class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
+class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
 {
     private readonly MeasurementPurger $purger;
 
@@ -31,18 +31,11 @@ final class PurgerFactory implements PurgerInterface, PurgerFactoryInterface
             return new self($this->manager);
         }
 
-        if ($purger instanceof MeasurementPurger) {
-            $manager = $purger->getMeasurementManager();
-        } elseif ($purger instanceof self) {
+        if ($purger instanceof self) {
             $manager = $purger->manager;
         } else {
             throw new InvalidArgumentException(
-                sprintf(
-                    'Expected purger to be either and instance of "%s" or "%s". Got "%s".',
-                    MeasurementPurger::class,
-                    __CLASS__,
-                    get_class($purger),
-                )
+                sprintf('Expected purger to be instance of "%s". Got "%s".', __CLASS__, get_class($purger)),
             );
         }
 
